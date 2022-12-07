@@ -2,7 +2,9 @@
 
 namespace App\Providers;
 
+use App\Integrations\SourceCodeProviders\GithubIntegrationProvider;
 use Illuminate\Support\ServiceProvider;
+use Laravel\Socialite\Contracts\Factory;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -23,6 +25,12 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        //
+        $socialite = $this->app->make(Factory::class);
+
+        $socialite->extend('integration:github', function () use ($socialite) {
+            $config = config('services.integrations.github');
+
+            return $socialite->buildProvider(GithubIntegrationProvider::class, $config);
+        });
     }
 }

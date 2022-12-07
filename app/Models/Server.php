@@ -12,5 +12,4 @@ class Server extends Model
     protected $guarded = [];
 
     protected $hidden = ['private_key'];
-
 }

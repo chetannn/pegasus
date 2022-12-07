@@ -7,6 +7,7 @@ use App\Http\Controllers\ServerController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
+use Laravel\Socialite\Facades\Socialite;
 
 /*
 |--------------------------------------------------------------------------
@@ -38,6 +39,18 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/projects/{project}', [ProjectController::class, 'show'])->name('projects.show');
     Route::post('/projects', [ProjectController::class, 'store'])->name('projects.store');
     Route::get('/projects', [ProjectController::class, 'index'])->name('projects.index');
+
+    Route::get('/integrations', function () {
+        return Inertia::render('Integrations/Index');
+    })->name('integrations.index');
+
+    Route::get('/integrations/github', function () {
+        return Socialite::driver('integration:github')->redirect();
+    });
+
+    Route::get('/integrations/github/callback', function () {
+        $user = Socialite::driver('integration:github')->user();
+    });
 });
 
 Route::get('/dashboard', function () {
