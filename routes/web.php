@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\IntegrationListController;
+use App\Http\Controllers\Integrations\GitHubController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ProjectController;
 use App\Http\Controllers\ProjectSettingController;
@@ -7,18 +9,6 @@ use App\Http\Controllers\ServerController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
-use Laravel\Socialite\Facades\Socialite;
-
-/*
-|--------------------------------------------------------------------------
-| Web Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register web routes for your application. These
-| routes are loaded by the RouteServiceProvider within a group which
-| contains the "web" middleware group. Now create something great!
-|
-*/
 
 Route::get('/', function () {
     return Inertia::render('Welcome', [
@@ -30,8 +20,12 @@ Route::get('/', function () {
 });
 
 Route::middleware(['auth', 'verified'])->group(function () {
-    Route::post('/servers/{project}', [ServerController::class, 'store'])->middleware(['auth', 'verified'])->name('servers.store');
-    Route::put('/servers/{server}/status', [ServerController::class, 'checkServerStatus'])->middleware(['auth', 'verified'])->name('servers.server_status');
+    Route::get('/dashboard', function () {
+        return Inertia::render('Dashboard');
+    })->name('dashboard');
+
+    Route::post('/servers/{project}', [ServerController::class, 'store'])->name('servers.store');
+    Route::put('/servers/{server}/status', [ServerController::class, 'checkServerStatus'])->name('servers.server_status');
 
     Route::get('/projects/{project}/settings', [ProjectSettingController::class, 'index'])->name('project_settings.index');
     Route::put('/projects/{project}/settings', [ProjectSettingController::class, 'update'])->name('project_settings.update');
@@ -40,28 +34,10 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::post('/projects', [ProjectController::class, 'store'])->name('projects.store');
     Route::get('/projects', [ProjectController::class, 'index'])->name('projects.index');
 
-    Route::get('/integrations', function () {
-        return Inertia::render('Integrations/Index');
-    })->name('integrations.index');
-
-    Route::get('/integrations/github', function () {
-        return Socialite::driver('integration:github')
-                ->scopes(['read:user', 'repo'])
-                ->redirect();
-    });
-
-    Route::get('/integrations/github/callback', function () {
-        $user = Socialite::driver('integration:github')->user();
-
-        // dd($user->getEmail(), $user->getNickname());
-
-        return to_route('integrations.index');
-    });
+    Route::get('/integrations', IntegrationListController::class)->name('integrations.index');
+    Route::get('/integrations/github', [GitHubController::class, 'redirect']);
+    Route::get('/integrations/github/callback', [GitHubController::class, 'callback']);
 });
-
-Route::get('/dashboard', function () {
-    return Inertia::render('Dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');

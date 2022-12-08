@@ -6,6 +6,7 @@ import { ArrowPathIcon } from '@heroicons/vue/24/solid'
 import SecondaryButton from '@/Components/SecondaryButton.vue'
 import PrimaryButton from '@/Components/PrimaryButton.vue'
 import ServerTable from '@/Components/ServerTable.vue'
+import DeploymentTable from '@/Components/DeploymentTable.vue'
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue'
 import AddServerForm from '@/Pages/Projects/Partials/AddServerForm.vue'
 import ServerDetailForm from '@/Pages/Projects/Partials/ServerDetailForm.vue'
@@ -101,45 +102,7 @@ const closeAddServerDialog = () => showAddServerDialog.value = false
               </div>
 
               <div class="overflow-x-auto relative">
-                <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
-                  <thead class="text-sm text-gray-700 bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
-                    <tr>
-                      <th
-                        scope="col"
-                        class="py-3 px-6"
-                      >
-                        Started
-                      </th>
-                      <th
-                        scope="col"
-                        class="py-3 px-6"
-                      >
-                        Committer
-                      </th>
-                      <th
-                        scope="col"
-                        class="py-3 px-6"
-                      >
-                        Commit
-                      </th>
-                      <th
-                        scope="col"
-                        class="py-3 px-6"
-                      >
-                        Status
-                      </th>
-                      <th
-                        scope="col"
-                        class="py-3 px-6"
-                      >
-                        #
-                      </th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700" />
-                  </tbody>
-                </table>
+                <DeploymentTable />
               </div>
             </TabPanel>
 

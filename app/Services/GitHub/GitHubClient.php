@@ -46,6 +46,6 @@ class GitHubClient
 
     public function repos()
     {
-            return new Repository(client: $this);
+        return new Repository(client: $this);
     }
 }
