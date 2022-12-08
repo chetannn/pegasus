@@ -45,11 +45,17 @@ Route::middleware(['auth', 'verified'])->group(function () {
     })->name('integrations.index');
 
     Route::get('/integrations/github', function () {
-        return Socialite::driver('integration:github')->redirect();
+        return Socialite::driver('integration:github')
+                ->scopes(['read:user', 'repo'])
+                ->redirect();
     });
 
     Route::get('/integrations/github/callback', function () {
         $user = Socialite::driver('integration:github')->user();
+
+        // dd($user->getEmail(), $user->getNickname());
+
+        return to_route('integrations.index');
     });
 });
 

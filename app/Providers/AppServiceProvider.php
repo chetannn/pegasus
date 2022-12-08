@@ -3,6 +3,7 @@
 namespace App\Providers;
 
 use App\Integrations\SourceCodeProviders\GithubIntegrationProvider;
+use App\Services\GitHub\GitHubClient;
 use Illuminate\Support\ServiceProvider;
 use Laravel\Socialite\Contracts\Factory;
 
@@ -15,7 +16,12 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        //
+        $this->app->singleton(
+            abstract: GitHubClient::class,
+            concrete: fn () => new GitHubClient(
+                baseUrl: 'https://api.github.com'
+            )
+        );
     }
 
     /**
