@@ -1,8 +1,10 @@
 <script setup>
 import GithubIcon from "@/Components/GithubIcon.vue"
+import GitlabIcon from "@/Components/GitlabIcon.vue"
+import BitbucketIcon from "@/Components/BitbucketIcon.vue"
 
 const props = defineProps({
-        providerName: String
+        provider: Object
 })
 </script>
 
@@ -12,9 +14,11 @@ const props = defineProps({
                 <div class="p-4 bg-white rounded-t">
                 <div class="text-center">
                 <div class="flex items-center justify-center">
-                         <GithubIcon class="h-10 w-10" />
+                         <GithubIcon v-if="provider.id === 1" class="h-10 w-10" />
+                         <GitlabIcon v-else-if="provider.id === 2" class="h-10 w-10" />
+                         <BitbucketIcon v-else-if="provider.id === 3" class="h-10 w-10" />
                  </div>
-                 <h5 class="text-lg mt-2 mb-3 text-gray-800">{{providerName}}</h5>
+                 <h5 class="text-lg mt-2 mb-3 text-gray-800">{{provider.name}}</h5>
                 </div>
                 </div>
                   
