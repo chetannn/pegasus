@@ -106,6 +106,110 @@ const updateProjectName = () => {
           </section>
         </div>
 
+
+        <div class="p-4 sm:p-8 bg-white shadow sm:rounded-lg">
+          <section class="space-y-6">
+            <header>
+              <h2 class="text-lg font-medium text-gray-900">Source Control</h2>
+
+              <p class="mt-1 text-sm text-gray-600">
+                Once your project is deleted, all of its resources and data will be permanently deleted. Before deleting
+                your project, please download any data or information that you wish to retain.
+              </p>
+            </header>
+
+
+
+            <form
+              class="mt-6 space-y-6"
+              @submit.prevent="updateProjectName"
+            >
+
+              <div>
+                <InputLabel
+                  for="name"
+                  value="Provider"
+                />
+
+                <TextInput
+                  id="name"
+                  ref="projectNameInput"
+                  type="text"
+                  class="mt-1 block w-full"
+                  autocomplete="off"
+                  value="GitHub"
+                />
+
+                <InputError
+                  :message="form.errors.name"
+                  class="mt-2"
+                />
+              </div>
+
+
+
+              <div>
+                <InputLabel
+                  for="name"
+                  value="Repository Url"
+                />
+
+                <TextInput
+                  id="name"
+                  ref="projectNameInput"
+                  type="text"
+                  class="mt-1 block w-full"
+                  autocomplete="off"
+                />
+
+                <InputError
+                  :message="form.errors.name"
+                  class="mt-2"
+                />
+              </div>
+
+              <div>
+                <InputLabel
+                  for="branch"
+                  value="Branch"
+                />
+
+                <TextInput
+                  id="name"
+                  ref="projectNameInput"
+                  type="text"
+                  class="mt-1 block w-full"
+                  autocomplete="off"
+                />
+
+                <InputError
+                  :message="form.errors.name"
+                  class="mt-2"
+                />
+              </div>
+
+              <div class="flex items-center gap-4">
+                <PrimaryButton :disabled="form.processing">
+                  Save
+                </PrimaryButton>
+
+                <Transition
+                  enter-from-class="opacity-0"
+                  leave-to-class="opacity-0"
+                  class="transition ease-in-out"
+                >
+                  <p
+                    v-if="form.recentlySuccessful"
+                    class="text-sm text-gray-600"
+                  >
+                    Saved.
+                  </p>
+                </Transition>
+              </div>
+            </form>
+          </section>
+        </div>
+
         <div class="p-4 sm:p-8 bg-white shadow sm:rounded-lg">
           <section class="space-y-6">
             <header>
@@ -124,6 +228,7 @@ const updateProjectName = () => {
             </DangerButton>
           </section>
         </div>
+
       </div>
     </div>
   </AuthenticatedLayout>
