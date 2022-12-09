@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Integrations;
 
+use App\Enums\ProviderType;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\RedirectResponse;
 use Laravel\Socialite\Facades\Socialite;
@@ -11,7 +12,7 @@ class GitHubController extends Controller
     public function redirect()
     {
         return Socialite::driver('integration:github')
-                ->scopes(['read:user', 'repo'])
+                ->scopes(['repo'])
                 ->redirect();
     }
 
@@ -19,8 +20,8 @@ class GitHubController extends Controller
     {
         $user = Socialite::driver('integration:github')->user();
 
-        if (! auth()->user()->sourceProviders()->wherePivot('provider_id', 1)->exists()) {
-            auth()->user()->sourceProviders()->attach(1, [
+        if (! auth()->user()->sourceProviders()->wherePivot('provider_id', ProviderType::GitHub)->exists()) {
+            auth()->user()->sourceProviders()->attach(ProviderType::GitHub, [
                 'payload' => json_encode($user),
                 'label' => $user->getName(),
                 'created_at' => now(),

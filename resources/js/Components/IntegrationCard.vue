@@ -36,7 +36,7 @@ const props = defineProps({
       <a
         v-if="provider.status === 1"
         class="px-4 rounded-b py-2 bg-green-600 flex items-center justify-center text-white"
-        href="/integrations/github"
+        href="#"
       >Connected</a>
       <a
         v-else
