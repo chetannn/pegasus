@@ -30,7 +30,7 @@ const closeAddServerDialog = () => showAddServerDialog.value = false
           Project: {{ project.name }}
         </h2>
 
-        <div class="flex space-x-4">
+        <div class="flex justify-center items-center space-x-4">
           <Link
             as="button"
             type="button"
@@ -125,8 +125,8 @@ const closeAddServerDialog = () => showAddServerDialog.value = false
               </div>
 
               <div class="overflow-x-auto relative">
-              <ServerTable :servers="servers" />
-             </div>
+                <ServerTable :servers="servers" />
+              </div>
             </TabPanel>
           </TabPanels>
         </TabGroup>
