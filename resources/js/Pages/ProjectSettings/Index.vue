@@ -6,6 +6,7 @@ import InputError from '@/Components/InputError.vue'
 import InputLabel from '@/Components/InputLabel.vue'
 import PrimaryButton from '@/Components/PrimaryButton.vue'
 import TextInput from '@/Components/TextInput.vue'
+import DangerButton from '@/Components/DangerButton.vue'
 
 const props = defineProps({
   project: Object
@@ -44,11 +45,8 @@ const updateProjectName = () => {
     </template>
 
     <div class="py-12">
-      <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-        <div class="flex justify-around">
-          <div>Tab</div>
-
-
+      <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 space-y-6">
+        <div class="p-4 sm:p-8 bg-white shadow sm:rounded-lg">
           <section>
             <header>
               <h2 class="text-lg font-medium text-gray-900">
@@ -105,6 +103,25 @@ const updateProjectName = () => {
                 </Transition>
               </div>
             </form>
+          </section>
+        </div>
+
+        <div class="p-4 sm:p-8 bg-white shadow sm:rounded-lg">
+          <section class="space-y-6">
+            <header>
+              <h2 class="text-lg font-medium text-gray-900">
+                Delete Project
+              </h2>
+
+              <p class="mt-1 text-sm text-gray-600">
+                Once your project is deleted, all of its resources and data will be permanently deleted. Before deleting
+                your project, please download any data or information that you wish to retain.
+              </p>
+            </header>
+
+            <DangerButton @click="confirmUserDeletion">
+              Delete Project
+            </DangerButton>
           </section>
         </div>
       </div>

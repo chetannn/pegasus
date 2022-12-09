@@ -5,6 +5,7 @@ import { TabGroup, TabList, Tab, TabPanels, TabPanel } from '@headlessui/vue'
 import { ArrowPathIcon } from '@heroicons/vue/24/solid'
 import SecondaryButton from '@/Components/SecondaryButton.vue'
 import PrimaryButton from '@/Components/PrimaryButton.vue'
+import Toggle from '@/Components/Toggle.vue'
 import ServerTable from '@/Components/ServerTable.vue'
 import DeploymentTable from '@/Components/DeploymentTable.vue'
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue'
@@ -31,6 +32,7 @@ const closeAddServerDialog = () => showAddServerDialog.value = false
         </h2>
 
         <div class="flex justify-center items-center space-x-4">
+          <Toggle label="Auto Deploy" />
           <Link
             as="button"
             type="button"
@@ -70,25 +72,6 @@ const closeAddServerDialog = () => showAddServerDialog.value = false
             <Tab as="template">
               <button class="w-full py-2 text-sm font-medium">
                 Deployment Hooks
-              </button>
-            </Tab>
-
-            <Tab as="template">
-              <button class="w-full py-2 text-sm font-medium">
-                Heartbeats
-              </button>
-            </Tab>
-
-            <Tab as="template">
-              <button class="w-full py-2 text-sm font-medium">
-                Notifications
-              </button>
-            </Tab>
-
-
-            <Tab as="template">
-              <button class="w-full py-2 text-sm font-medium">
-                Collaborators
               </button>
             </Tab>
           </TabList>
