@@ -7,6 +7,7 @@ import InputLabel from '@/Components/InputLabel.vue'
 import PrimaryButton from '@/Components/PrimaryButton.vue'
 import TextInput from '@/Components/TextInput.vue'
 import DangerButton from '@/Components/DangerButton.vue'
+import Toggle from '@/Components/Toggle.vue'
 
 const props = defineProps({
   project: Object
@@ -50,7 +51,7 @@ const updateProjectName = () => {
           <section>
             <header>
               <h2 class="text-lg font-medium text-gray-900">
-                Update Project Name
+                 Project Details
               </h2>
 
               <p class="mt-1 text-sm text-gray-600">
@@ -81,6 +82,10 @@ const updateProjectName = () => {
                   :message="form.errors.name"
                   class="mt-2"
                 />
+              </div>
+
+              <div>
+                <Toggle label="Deploy when code is pushed" />
               </div>
 
 
