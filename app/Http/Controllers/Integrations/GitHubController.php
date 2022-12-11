@@ -21,7 +21,7 @@ class GitHubController extends Controller
         $user = Socialite::driver('integration:github')->user();
 
         if (! auth()->user()->sourceProviders()->wherePivot('provider_id', ProviderType::GitHub)->exists()) {
-            auth()->user()->sourceProviders()->attach(ProviderType::GitHub, [
+            auth()->user()->sourceProviders()->attach(ProviderType::GitHub->value, [
                 'payload' => json_encode($user),
                 'label' => $user->getName(),
                 'created_at' => now(),
@@ -35,6 +35,10 @@ class GitHubController extends Controller
 
     public function disconnect(): RedirectResponse
     {
+        if (auth()->user()->sourceProviders()->wherePivot('provider_id', ProviderType::GitHub)->exists()) {
+            auth()->user()->sourceProviders()->detach(ProviderType::GitHub->value);
+        }
+
         return to_route('integrations.index');
     }
 }

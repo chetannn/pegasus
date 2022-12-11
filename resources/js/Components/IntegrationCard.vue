@@ -6,6 +6,50 @@ import BitbucketIcon from '@/Components/BitbucketIcon.vue'
 const props = defineProps({
   provider: Object
 })
+
+
+function getIntegrationConnectLink() {
+  const provider = props.provider
+  let integrationLink = ''
+
+  switch(provider.id) {
+  case 1:
+    integrationLink = '/integrations/github'
+    break
+
+  case 2:
+    integrationLink = '/integrations/gitlab'
+    break
+
+  case 3:
+    integrationLink = '/integrations/bitbucket'
+  }
+
+  return integrationLink
+}
+
+
+
+function getIntegrationDisConnectLink() {
+  const provider = props.provider
+  let integrationLink = ''
+
+  switch(provider.id) {
+  case 1:
+    integrationLink = '/integrations/github/disconnect'
+    break
+
+  case 2:
+    integrationLink = '/integrations/gitlab/disconnect'
+    break
+
+  case 3:
+    integrationLink = '/integrations/bitbucket/disconnect'
+  }
+
+  return integrationLink
+}
+
 </script>
 
 <template>
@@ -35,13 +79,17 @@ const props = defineProps({
     <div class="text-center border-t">
       <a
         v-if="provider.status === 1"
-        class="px-4 rounded-b py-2 bg-green-600 flex items-center justify-center text-white"
-        href="#"
-      >Connected</a>
+        class="px-4 rounded-b py-2 bg-green-600 flex items-center justify-center text-white hover:bg-red-600 group transition-all"
+        :href="getIntegrationDisConnectLink()"
+      >
+       <span class="group-hover:hidden">Connected</span>
+       <span class="hidden group-hover:inline-block">Disconnect</span>
+        
+      </a>
       <a
         v-else
         class="px-4 rounded-b py-2 hover:bg-green-600 flex items-center justify-center bg-white hover:text-white"
-        href="/integrations/github"
+        :href="getIntegrationConnectLink()"
       >Connect</a>
     </div>
   </div>

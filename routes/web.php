@@ -37,6 +37,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/integrations', IntegrationListController::class)->name('integrations.index');
     Route::get('/integrations/github', [GitHubController::class, 'redirect']);
     Route::get('/integrations/github/callback', [GitHubController::class, 'callback']);
+    Route::get('/integrations/github/disconnect', [GitHubController::class, 'disconnect']);
 });
 
 Route::middleware('auth')->group(function () {

@@ -51,7 +51,7 @@ const updateProjectName = () => {
           <section>
             <header>
               <h2 class="text-lg font-medium text-gray-900">
-                 Project Details
+                Project Details
               </h2>
 
               <p class="mt-1 text-sm text-gray-600">
@@ -115,7 +115,9 @@ const updateProjectName = () => {
         <div class="p-4 sm:p-8 bg-white shadow sm:rounded-lg">
           <section class="space-y-6">
             <header>
-              <h2 class="text-lg font-medium text-gray-900">Source Control</h2>
+              <h2 class="text-lg font-medium text-gray-900">
+                Source Control
+              </h2>
 
               <p class="mt-1 text-sm text-gray-600">
                 Once your project is deleted, all of its resources and data will be permanently deleted. Before deleting
@@ -129,7 +131,6 @@ const updateProjectName = () => {
               class="mt-6 space-y-6"
               @submit.prevent="updateProjectName"
             >
-
               <div>
                 <InputLabel
                   for="name"
@@ -233,7 +234,6 @@ const updateProjectName = () => {
             </DangerButton>
           </section>
         </div>
-
       </div>
     </div>
   </AuthenticatedLayout>
