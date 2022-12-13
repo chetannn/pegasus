@@ -17,8 +17,8 @@ const closeServerDetailDialog = () => showServerDetailDialog.value = false
 </script>
 
 <template>
-  <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
-    <thead class="text-sm text-gray-700 bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+  <table class="w-full text-sm text-left text-gray-500">
+    <thead class="text-sm text-gray-700 bg-gray-50">
       <tr>
         <th
           scope="col"
@@ -56,7 +56,7 @@ const closeServerDetailDialog = () => showServerDetailDialog.value = false
       <tr
         v-for="server in servers"
         :key="server.id"
-        class="bg-white border-b dark:bg-gray-800 dark:border-gray-700"
+        class="bg-white border-b"
       >
         <td class="py-4 px-6">
           {{ server.name }}

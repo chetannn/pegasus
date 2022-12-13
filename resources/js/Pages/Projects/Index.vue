@@ -70,8 +70,8 @@ const createProject = () => {
         </div>
 
         <div class="overflow-x-auto relative">
-          <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
-            <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+          <table class="w-full text-sm text-left text-gray-500">
+            <thead class="text-xs text-gray-700 uppercase bg-gray-50 ">
               <tr>
                 <th
                   scope="col"
@@ -105,11 +105,11 @@ const createProject = () => {
               <tr
                 v-for="project in projects"
                 :key="project.id"
-                class="bg-white border-b dark:bg-gray-800 dark:border-gray-700"
+                class="bg-white border-b"
               >
                 <th
                   scope="row"
-                  class="py-4 px-6 font-medium text-gray-900 whitespace-nowrap dark:text-white"
+                  class="py-4 px-6 font-medium text-gray-900 whitespace-nowrap "
                 >
                   <NavLink
                     :href="route('projects.show', { project: project.id })"
