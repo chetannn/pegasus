@@ -49,6 +49,9 @@ class User extends Authenticatable
         return $this->hasMany(Project::class);
     }
 
+    /**
+     * @return BelongsToMany
+     */
     public function sourceProviders(): BelongsToMany
     {
         return $this->belongsToMany(related: Provider::class, table: 'user_source_providers');

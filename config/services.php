@@ -35,6 +35,11 @@ return [
             'client_secret' => env('GITHUB_INTEGRATION_CLIENT_SECRET'),
             'redirect' => '/integrations/github/callback',
         ],
+        'gitlab' => [
+            'client_id' => env('GITLAB_INTEGRATION_CLIENT_ID'),
+            'client_secret' => env('GITLAB_INTEGRATION_CLIENT_SECRET'),
+            'redirect' => '/integrations/gitlab/callback',
+        ],
     ],
 
 ];

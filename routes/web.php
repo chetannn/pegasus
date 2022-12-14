@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\IntegrationListController;
 use App\Http\Controllers\Integrations\GitHubController;
+use App\Http\Controllers\Integrations\GitLabController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ProjectController;
 use App\Http\Controllers\ProjectSettingController;
@@ -38,6 +39,10 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/integrations/github', [GitHubController::class, 'redirect']);
     Route::get('/integrations/github/callback', [GitHubController::class, 'callback']);
     Route::get('/integrations/github/disconnect', [GitHubController::class, 'disconnect']);
+
+    Route::get('/integrations/gitlab', [GitLabController::class, 'redirect']);
+    Route::get('/integrations/gitlab/callback', [GitLabControllerla::class, 'callback']);
+    Route::get('/integrations/gitlab/disconnect', [GitLabController::class, 'disconnect']);
 });
 
 Route::middleware('auth')->group(function () {

@@ -3,18 +3,14 @@
 namespace App\Providers;
 
 use App\Integrations\SourceCodeProviders\GithubIntegrationProvider;
+use App\Integrations\SourceCodeProviders\GitlabIntegrationProvider;
 use App\Services\GitHub\GitHubClient;
 use Illuminate\Support\ServiceProvider;
 use Laravel\Socialite\Contracts\Factory;
 
 class AppServiceProvider extends ServiceProvider
 {
-    /**
-     * Register any application services.
-     *
-     * @return void
-     */
-    public function register()
+    public function register(): void
     {
         $this->app->singleton(
             abstract: GitHubClient::class,
@@ -24,12 +20,7 @@ class AppServiceProvider extends ServiceProvider
         );
     }
 
-    /**
-     * Bootstrap any application services.
-     *
-     * @return void
-     */
-    public function boot()
+    public function boot(): void
     {
         $socialite = $this->app->make(Factory::class);
 
@@ -37,6 +28,12 @@ class AppServiceProvider extends ServiceProvider
             $config = config('services.integrations.github');
 
             return $socialite->buildProvider(GithubIntegrationProvider::class, $config);
+        });
+
+        $socialite->extend('integration:gitlab', function () use ($socialite) {
+            $config = config('services.integrations.gitlab');
+
+            return $socialite->buildProvider(GitlabIntegrationProvider::class, $config);
         });
     }
 }
