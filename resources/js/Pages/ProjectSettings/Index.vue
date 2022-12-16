@@ -14,6 +14,7 @@ const props = defineProps({
 })
 
 const projectNameInput = ref(null)
+const autoDeploy = ref(!!props.project.deploy_when_code_is_pushed)
 
 
 const form = useForm({
@@ -85,7 +86,7 @@ const updateProjectName = () => {
               </div>
 
               <div>
-                <Toggle label="Deploy when code is pushed" />
+                <Toggle v-model="autoDeploy" label="Deploy when code is pushed" />
               </div>
 
 

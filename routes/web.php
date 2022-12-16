@@ -30,6 +30,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
     Route::get('/projects/{project}/settings', [ProjectSettingController::class, 'index'])->name('project_settings.index');
     Route::put('/projects/{project}/settings', [ProjectSettingController::class, 'update'])->name('project_settings.update');
+    Route::patch('/projects/{project}/toggle-auto-deploy', [ProjectSettingController::class, 'toggleAutoDeploy'])->name('project_settings.toggle_auto_deploy');
 
     Route::get('/projects/{project}', [ProjectController::class, 'show'])->name('projects.show');
     Route::post('/projects', [ProjectController::class, 'store'])->name('projects.store');
@@ -38,10 +39,10 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/integrations', IntegrationListController::class)->name('integrations.index');
     Route::get('/integrations/github', [GitHubController::class, 'redirect']);
     Route::get('/integrations/github/callback', [GitHubController::class, 'callback']);
-    Route::get('/integrations/github/disconnect', [GitHubController::class, 'disconnect']);
+    Route::get('/integrations/github/disconnect', [GitHubController::class, 'isconnect']);
 
     Route::get('/integrations/gitlab', [GitLabController::class, 'redirect']);
-    Route::get('/integrations/gitlab/callback', [GitLabControllerla::class, 'callback']);
+    Route::get('/integrations/gitlab/callback', [GitLabController::class, 'callback']);
     Route::get('/integrations/gitlab/disconnect', [GitLabController::class, 'disconnect']);
 });
 

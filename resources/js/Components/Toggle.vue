@@ -1,17 +1,31 @@
 <script setup>
+import { computed } from 'vue'
+import { Switch, SwitchGroup, SwitchLabel } from '@headlessui/vue'
+
+const emit = defineEmits(['update:modelValue'])
+
 const props = defineProps({
-  label: String
+  label: String,
+  modelValue: Boolean
 })
+
 </script>
 
 <template>
-  <label class="inline-flex relative items-center cursor-pointer">
-    <input
-      type="checkbox"
-      value=""
-      class="sr-only peer"
-    >
-    <div class="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-2 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 rounded-full peer  peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all  peer-checked:bg-blue-600" />
-    <span class="ml-3 text-sm font-medium text-gray-900 ">{{ label }}</span>
-  </label>
+  <SwitchGroup>
+    <div class="flex items-center">
+      <SwitchLabel class="mr-4 text-sm">{{label}}</SwitchLabel>
+        <Switch
+        @update:modelValue="value => emit('update:modelValue', value)"
+       :model-value="props.modelValue"
+        :class='props.modelValue ? "bg-blue-600" : "bg-gray-200"'
+        class="relative inline-flex h-6 w-11 items-center rounded-full transition-colors focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+      >
+        <span
+          :class='props.modelValue ? "translate-x-6" : "translate-x-1"'
+          class="inline-block h-4 w-4 transform rounded-full bg-white transition-transform"
+        />
+      </Switch>
+    </div>
+    </SwitchGroup>
 </template>

@@ -1,6 +1,6 @@
 <script setup>
 import { Head, Link } from '@inertiajs/inertia-vue3'
-import { ref } from 'vue'
+import { ref, watch } from 'vue'
 import { TabGroup, TabList, Tab, TabPanels, TabPanel } from '@headlessui/vue'
 import { ArrowPathIcon } from '@heroicons/vue/24/solid'
 import SecondaryButton from '@/Components/SecondaryButton.vue'
@@ -11,6 +11,7 @@ import DeploymentTable from '@/Components/DeploymentTable.vue'
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue'
 import AddServerForm from '@/Pages/Projects/Partials/AddServerForm.vue'
 import ServerDetailForm from '@/Pages/Projects/Partials/ServerDetailForm.vue'
+import { Inertia } from '@inertiajs/inertia'
 
 const props = defineProps({
   project: Object,
@@ -19,6 +20,15 @@ const props = defineProps({
 
 const showAddServerDialog = ref(false)
 const closeAddServerDialog = () => showAddServerDialog.value = false
+const autoDeploy = ref(!!props.project.deploy_when_code_is_pushed)
+
+
+watch(autoDeploy, () => {
+        Inertia.patch(route('project_settings.toggle_auto_deploy', { project: props.project.id }), {
+                enableAutoDeploy: autoDeploy.value
+        }, { preserveState: true })
+})
+
 </script>
 
 <template>
@@ -32,7 +42,7 @@ const closeAddServerDialog = () => showAddServerDialog.value = false
         </h2>
 
         <div class="flex justify-center items-center space-x-4">
-          <Toggle label="Auto Deploy" />
+          <Toggle v-model="autoDeploy" label="Auto Deploy" />
           <Link
             as="button"
             type="button"
