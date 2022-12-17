@@ -26,10 +26,10 @@ class ProjectSettingController extends Controller
 
     public function toggleAutoDeploy(Project $project): RedirectResponse
     {
-            $project->update([
-                    'deploy_when_code_is_pushed' => request()->boolean('enableAutoDeploy')
-            ]);
+        $project->update([
+            'deploy_when_code_is_pushed' => request()->boolean('enableAutoDeploy'),
+        ]);
 
-            return redirect()->back();
+        return redirect()->back();
     }
 }

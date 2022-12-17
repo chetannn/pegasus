@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers\Integrations;
 
+use App\Enums\ProviderType;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\RedirectResponse;
 use Laravel\Socialite\Facades\Socialite;
-use App\Enums\ProviderType;
 
 class GitLabController extends Controller
 {

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Enums\ServerStatus;
 use App\Jobs\GenerateSshKey;
 use App\Jobs\TestServerConnection;
 use App\Models\Project;
@@ -24,6 +25,7 @@ class ServerController extends Controller
             'username' => request('username'),
             'name' => request('name'),
             'project_path' => request('project_path'),
+            'status' => ServerStatus::Unknown->value,
         ]);
 
         dispatch(new GenerateSshKey($server));

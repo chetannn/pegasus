@@ -12,6 +12,7 @@ import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue'
 import AddServerForm from '@/Pages/Projects/Partials/AddServerForm.vue'
 import ServerDetailForm from '@/Pages/Projects/Partials/ServerDetailForm.vue'
 import { Inertia } from '@inertiajs/inertia'
+import { RocketLaunchIcon, ServerStackIcon, BoltIcon } from '@heroicons/vue/24/outline'
 
 const props = defineProps({
   project: Object,
@@ -59,37 +60,60 @@ watch(autoDeploy, () => {
     <div class="py-12">
       <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
         <TabGroup>
-          <TabList class="flex space-x-1 p-1 border-b mb-4">
+          <div class="border-b text-center text-sm text-gray-600">
+          <TabList as="ul" class="flex flex-wrap">
             <Tab
               v-slot="{selected}"
-              as="template"
+              class="mx-4 focus:outline-none"
+              as="li"
             >
-              <button :class="['w-full py-2 text-sm font-medium rounded-md', selected ? 'bg-white' : '']">
-                Deployments
+              <button
+                :class="['inline-flex items-center p-3 border-b-2 border-transparent group', selected ? 'text-blue-600 border-blue-600' : 'hover:text-gray-700 hover:border-gray-300']"
+               >
+               <RocketLaunchIcon :class="['w-5 h-5 mr-2 text-gray-500 ', selected ? 'text-blue-600' : 'group-hover:text-gray-600']" />
+              Deployments
               </button>
             </Tab>
 
             <Tab
               v-slot="{selected}"
-              as="template"
+              as="li"
+              class="mx-4 focus:outline-none"
             >
-              <button :class="['w-full py-2 text-sm font-medium rounded-md', selected ? 'bg-white' : '']">
+              <button
+                :class="['inline-flex items-center p-3 border-b-2 border-transparent group', selected ? 'text-blue-600 border-blue-600' : 'hover:text-gray-700 hover:border-gray-300']"
+                >
+               <ServerStackIcon 
+                :class="['w-5 h-5 mr-2 text-gray-500', selected ? 'text-blue-600' : 'group-hover:text-gray-600']"
+                />
                 Servers
               </button>
             </Tab>
 
 
-            <Tab as="template">
-              <button class="w-full py-2 text-sm font-medium">
+            <Tab
+              v-slot="{selected}"
+              as="li"
+              class="mx-4 focus:outline-none"
+            >
+              <button 
+                :class="['inline-flex items-center p-3 border-b-2 border-transparent group', selected ? 'text-blue-600 border-blue-600' : 'hover:text-gray-700 hover:border-gray-300']"
+              >
+               <BoltIcon 
+                :class="['w-5 h-5 mr-2 text-gray-500', selected ? 'text-blue-600' : 'group-hover:text-gray-600']"
+               />
                 Deployment Hooks
               </button>
             </Tab>
+
+
           </TabList>
+          </div>
 
           <TabPanels>
             <TabPanel>
-              <div class="flex justify-between">
-                <h2 class="text-lg font-normal mb-2">
+              <div class="flex justify-between my-4">
+                <h2 class="text-lg font-normal">
                   Recent Deployments
                 </h2>
               </div>
@@ -100,15 +124,17 @@ watch(autoDeploy, () => {
             </TabPanel>
 
             <TabPanel>
-              <div class="flex justify-between mb-4">
+              <div class="flex justify-between my-4">
                 <h2 class="text-lg font-normal">
                   Servers
                 </h2>
                 <div class="flex space-x-2">
                   <SecondaryButton>Manage Environment</SecondaryButton>
+
                   <SecondaryButton @click="showAddServerDialog = true">
                     Add Server
                   </SecondaryButton>
+
                   <AddServerForm
                     :project="project"
                     :show-dialog="showAddServerDialog"

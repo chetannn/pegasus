@@ -22,21 +22,20 @@ class TestServerConnection implements ShouldQueue
 
     public function handle(): void
     {
-        $this->server->makeVisible('private_key');
-
-        $fileName = $this->server->id.'-'.$this->server->name;
+        $fileName = $this->server->id.'-'.str()->random();
         Storage::disk('local')->put($fileName, $this->server->private_key);
 
         $process = Ssh::create($this->server->username, $this->server->ip_address)
                 ->usePrivateKey(Storage::path($fileName))
+                 ->disableStrictHostKeyChecking()
+                ->usePort(22)
                 ->execute([
-                    "mkdir -p {$this->server->project_path}/releases",
-                    "mkdir -p {$this->server->project_path}/storage/{app,public,framework,logs}",
-                    "chmod -R 0775 {$this->server->project_path}/storage",
+                    'ls'
                 ]);
 
         $this->server->connection_status = $process->isSuccessful() ? ServerStatus::Connected : ServerStatus::Failed;
-        $this->server->makeHidden('private_key');
+
+        logger($process->getOutput());
 
         Storage::disk('local')->delete($fileName);
         $this->server->save();
