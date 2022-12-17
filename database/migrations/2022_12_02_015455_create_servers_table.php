@@ -1,5 +1,6 @@
 <?php
 
+use App\Enums\ServerStatus;
 use App\Models\Project;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
@@ -22,7 +23,7 @@ return new class extends Migration
             $table->string('project_path');
             $table->longText('private_key')->nullable();
             $table->longText('public_key')->nullable();
-            $table->integer('connection_status')->nullable();
+            $table->integer('connection_status')->default(ServerStatus::Unknown->value);
             $table->foreignIdFor(Project::class);
             $table->timestamps();
         });
