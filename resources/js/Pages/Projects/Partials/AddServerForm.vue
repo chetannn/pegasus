@@ -13,6 +13,7 @@ const props = defineProps({
 
 
 const emit = defineEmits(['close'])
+const closeModal = () => emit('close')
 
 const form = useForm({
   name: '',
@@ -37,7 +38,6 @@ const saveServer = () => {
   })
 }
 
-const closeModal = () => emit('close')
 
 </script>
 

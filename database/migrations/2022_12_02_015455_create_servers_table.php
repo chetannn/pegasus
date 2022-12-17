@@ -23,7 +23,7 @@ return new class extends Migration
             $table->string('project_path');
             $table->longText('private_key')->nullable();
             $table->longText('public_key')->nullable();
-            $table->integer('connection_status')->default(ServerStatus::Unknown->value);
+            $table->unsignedTinyInteger('connection_status')->default(ServerStatus::Unknown->value);
             $table->foreignIdFor(Project::class);
             $table->timestamps();
         });
