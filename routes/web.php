@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\DeploymentController;
 use App\Http\Controllers\IntegrationListController;
 use App\Http\Controllers\Integrations\GitHubController;
 use App\Http\Controllers\Integrations\GitLabController;
@@ -46,6 +47,8 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/integrations/gitlab/disconnect', [GitLabController::class, 'disconnect']);
 
     Route::get('/github/repositories', [GitHubController::class, 'repos']);
+
+    Route::get('/deploy/{deploymentTriggerToken}', [DeploymentController::class, 'deploy'])->name('deployments.store');
 });
 
 Route::middleware('auth')->group(function () {

@@ -1,5 +1,5 @@
 <script setup>
-import { Head, Link } from '@inertiajs/inertia-vue3'
+import { Head, Link, useForm } from '@inertiajs/inertia-vue3'
 import { ref, watch } from 'vue'
 import { TabGroup, TabList, Tab, TabPanels, TabPanel } from '@headlessui/vue'
 import { ArrowPathIcon } from '@heroicons/vue/24/solid'
@@ -16,7 +16,8 @@ import { RocketLaunchIcon, ServerStackIcon, BoltIcon } from '@heroicons/vue/24/o
 
 const props = defineProps({
   project: Object,
-  servers: Array
+  servers: Array,
+  deployments: Array
 })
 
 const showAddServerDialog = ref(false)
@@ -29,6 +30,12 @@ watch(autoDeploy, () => {
                 enableAutoDeploy: autoDeploy.value
         }, { preserveState: true })
 })
+
+
+function deployProject() {
+
+        Inertia.get(`/deploy/${props.project.deployment_trigger_token}`)
+}
 
 </script>
 
@@ -52,7 +59,7 @@ watch(autoDeploy, () => {
           >
             Settings
           </Link>
-          <PrimaryButton>Deploy</PrimaryButton>
+          <PrimaryButton @click="deployProject()">Deploy</PrimaryButton>
         </div>
       </div>
     </template>
@@ -68,7 +75,7 @@ watch(autoDeploy, () => {
               as="li"
             >
               <button
-                :class="['inline-flex items-center p-3 border-b-2 border-transparent group', selected ? 'text-blue-600 border-blue-600' : 'hover:text-gray-700 hover:border-gray-300']"
+                :class="['inline-flex items-center p-3 border-b-2 border-transparent group font-normal', selected ? 'text-blue-600 border-blue-600' : 'hover:text-gray-700 hover:border-gray-300']"
                >
                <RocketLaunchIcon :class="['w-5 h-5 mr-2 text-gray-500 ', selected ? 'text-blue-600' : 'group-hover:text-gray-600']" />
               Deployments
@@ -81,7 +88,7 @@ watch(autoDeploy, () => {
               class="mx-4 focus:outline-none"
             >
               <button
-                :class="['inline-flex items-center p-3 border-b-2 border-transparent group', selected ? 'text-blue-600 border-blue-600' : 'hover:text-gray-700 hover:border-gray-300']"
+                :class="['inline-flex items-center p-3 border-b-2 border-transparent group font-normal', selected ? 'text-blue-600 border-blue-600' : 'hover:text-gray-700 hover:border-gray-300']"
                 >
                <ServerStackIcon 
                 :class="['w-5 h-5 mr-2 text-gray-500', selected ? 'text-blue-600' : 'group-hover:text-gray-600']"
@@ -97,7 +104,7 @@ watch(autoDeploy, () => {
               class="mx-4 focus:outline-none"
             >
               <button 
-                :class="['inline-flex items-center p-3 border-b-2 border-transparent group', selected ? 'text-blue-600 border-blue-600' : 'hover:text-gray-700 hover:border-gray-300']"
+                :class="['inline-flex items-center p-3 border-b-2 border-transparent group font-normal', selected ? 'text-blue-600 border-blue-600' : 'hover:text-gray-700 hover:border-gray-300']"
               >
                <BoltIcon 
                 :class="['w-5 h-5 mr-2 text-gray-500', selected ? 'text-blue-600' : 'group-hover:text-gray-600']"
@@ -119,7 +126,7 @@ watch(autoDeploy, () => {
               </div>
 
               <div class="overflow-x-auto relative">
-                <DeploymentTable />
+                <DeploymentTable :deployments="props.deployments" />
               </div>
             </TabPanel>
 

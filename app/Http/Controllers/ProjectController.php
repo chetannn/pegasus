@@ -20,6 +20,7 @@ class ProjectController extends Controller
         return Inertia::render('Projects/Show', [
             'project' => $project,
             'servers' => $project->servers()->get(),
+            'deployments' => $project->deployments()->latest()->get(),
         ]);
     }
 
@@ -31,7 +32,12 @@ class ProjectController extends Controller
             'repository' => ['required'],
         ]);
 
-        auth()->user()->projects()->create(request()->only(['name', 'provider_id', 'repository']));
+        auth()->user()->projects()->create(
+            array_merge(
+                request()->only(['name', 'provider_id', 'repository']),
+                ['deployment_trigger_token' => str()->random(40)]
+            )
+        );
 
         return redirect()->back();
     }

@@ -22,6 +22,7 @@ return new class extends Migration
             $table->string('repository');
             $table->string('branch')->nullable();
             $table->boolean('deploy_when_code_is_pushed')->default(false);
+            $table->string('deployment_trigger_token');
             $table->timestamps();
         });
     }

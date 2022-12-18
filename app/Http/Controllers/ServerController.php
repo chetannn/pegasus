@@ -25,7 +25,7 @@ class ServerController extends Controller
             'username' => request('username'),
             'name' => request('name'),
             'project_path' => request('project_path'),
-            'status' => ServerStatus::Unknown->value,
+            'connection_status' => ServerStatus::Unknown->value,
         ]);
 
         dispatch(new GenerateSshKey($server));

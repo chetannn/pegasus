@@ -1,6 +1,7 @@
 <?php
 
 use App\Models\Environment;
+use App\Models\Project;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -16,8 +17,10 @@ return new class extends Migration
     {
         Schema::create('deployments', function (Blueprint $table) {
             $table->id();
-            $table->foreignIdFor(Environment::class);
+            $table->foreignIdFor(Environment::class)->nullable();
+            $table->foreignIdFor(Project::class);
             $table->string('commit_hash');
+            $table->string('committer');
             $table->timestamps();
         });
     }

@@ -2,6 +2,7 @@
 
 namespace App\Services\GitHub;
 
+use App\Services\GitHub\Resources\Commit;
 use App\Services\GitHub\Resources\Repository;
 use Illuminate\Http\Client\PendingRequest;
 use Illuminate\Support\Facades\Http;
@@ -47,5 +48,10 @@ class GitHubClient
     public function repos()
     {
         return new Repository(client: $this);
+    }
+
+    public function commits()
+    {
+        return new Commit(client: $this);
     }
 }
