@@ -2,7 +2,6 @@
   <svg
     viewBox="0 0 16 16"
     version="1.1"
-    width="32"
   >
     <path
       fill-rule="evenodd"

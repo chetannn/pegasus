@@ -54,6 +54,6 @@ class User extends Authenticatable
      */
     public function sourceProviders(): BelongsToMany
     {
-        return $this->belongsToMany(related: Provider::class, table: 'user_source_providers');
+        return $this->belongsToMany(related: Provider::class, table: 'user_source_providers')->withPivot(['payload']);
     }
 }

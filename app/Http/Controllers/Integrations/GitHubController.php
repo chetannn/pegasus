@@ -4,6 +4,8 @@ namespace App\Http\Controllers\Integrations;
 
 use App\Enums\ProviderType;
 use App\Http\Controllers\Controller;
+use App\Services\GitHub\GitHubClient;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Laravel\Socialite\Facades\Socialite;
 
@@ -40,5 +42,18 @@ class GitHubController extends Controller
         }
 
         return to_route('integrations.index');
+    }
+
+    public function repos(GitHubClient $gitHubClient): JsonResponse
+    {
+        $sourceProvider = auth()->user()->sourceProviders()->where('provider_id', ProviderType::GitHub->value)->first();
+
+        $githubPayload = json_decode($sourceProvider->pivot->payload);
+
+        $gitHubClient->setToken($githubPayload->token);
+
+        $repos = $gitHubClient->repos()->list();
+
+        return new JsonResponse(data: $repos);
     }
 }

@@ -25,6 +25,12 @@ class ProjectController extends Controller
 
     public function store(): RedirectResponse
     {
+        request()->validate([
+            'name' => ['required'],
+            'provider_id' => ['required'],
+            'repository' => ['required'],
+        ]);
+
         auth()->user()->projects()->create(request()->only(['name', 'provider_id', 'repository']));
 
         return redirect()->back();

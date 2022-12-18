@@ -39,11 +39,13 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/integrations', IntegrationListController::class)->name('integrations.index');
     Route::get('/integrations/github', [GitHubController::class, 'redirect']);
     Route::get('/integrations/github/callback', [GitHubController::class, 'callback']);
-    Route::get('/integrations/github/disconnect', [GitHubController::class, 'isconnect']);
+    Route::get('/integrations/github/disconnect', [GitHubController::class, 'disconnect']);
 
     Route::get('/integrations/gitlab', [GitLabController::class, 'redirect']);
     Route::get('/integrations/gitlab/callback', [GitLabController::class, 'callback']);
     Route::get('/integrations/gitlab/disconnect', [GitLabController::class, 'disconnect']);
+
+    Route::get('/github/repositories', [GitHubController::class, 'repos']);
 });
 
 Route::middleware('auth')->group(function () {

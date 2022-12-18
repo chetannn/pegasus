@@ -30,7 +30,7 @@ class TestServerConnection implements ShouldQueue
                  ->disableStrictHostKeyChecking()
                 ->usePort(22)
                 ->execute([
-                    'ls'
+                    'ls',
                 ]);
 
         $this->server->connection_status = $process->isSuccessful() ? ServerStatus::Connected : ServerStatus::Failed;
