@@ -1,6 +1,7 @@
 <script setup>
 import { ref, onMounted } from 'vue'
 import {  Link } from '@inertiajs/inertia-vue3'
+import {  Inertia } from '@inertiajs/inertia'
 import { ArrowPathIcon } from '@heroicons/vue/24/solid'
 import AddServerForm from '@/Pages/Projects/Partials/AddServerForm.vue'
 import ServerDetailForm from '@/Pages/Projects/Partials/ServerDetailForm.vue'
@@ -14,6 +15,12 @@ const props = defineProps({
 const showServerDetailDialog = ref(false)
 
 const closeServerDetailDialog = () => showServerDetailDialog.value = false
+
+
+function checkServerStatus(server) {
+
+              Inertia.put(route('servers.server_status', { server: server.id }) )
+}
 
 </script>
 
@@ -84,14 +91,12 @@ const closeServerDetailDialog = () => showServerDetailDialog.value = false
               class="text-red-600 font-bold"
             >failed</span>
 
-            <Link
-              as="button"
-              type="button"
-              method="put"
+            <button
+                @click="checkServerStatus(server)"
               :href="route('servers.server_status', { server: server.id })"
             >
               <ArrowPathIcon class="ml-1 w-4 h-4" />
-            </Link>
+            </button>
           </div>
         </td>
 

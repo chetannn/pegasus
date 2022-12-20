@@ -15,7 +15,8 @@ use App\Events\CheckServerConnectionStatus;
 
 class TestServerConnection implements ShouldQueue
 {
-    use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
+        use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
+
 
     public function __construct(public Server $server)
     {
@@ -26,18 +27,22 @@ class TestServerConnection implements ShouldQueue
         $fileName = $this->server->id.'-'.str()->random();
         Storage::disk('local')->put($fileName, $this->server->private_key);
 
+        Storage::disk('local')->setVisibility($fileName, 'private');
+
         $process = Ssh::create($this->server->username, $this->server->ip_address)
                 ->usePrivateKey(Storage::path($fileName))
-                 ->disableStrictHostKeyChecking()
+                ->disablePasswordAuthentication()
+                ->disableStrictHostKeyChecking()
                 ->usePort(22)
                 ->execute([
                     'ls -la',
                 ]);
 
         $this->server->connection_status = $process->isSuccessful() ? ServerStatus::Connected : ServerStatus::Failed;
+        
+        logger($process->getOutput());
 
         CheckServerConnectionStatus::dispatch($this->server->id, $process->isSuccessful());
-
         Storage::disk('local')->delete($fileName);
         $this->server->save();
     }

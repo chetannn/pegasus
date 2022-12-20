@@ -8,7 +8,8 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
-use Spatie\Crypto\Rsa\KeyPair;
+use Illuminate\Support\Facades\Storage;
+use Symfony\Component\Process\Process;
 
 class GenerateSshKey implements ShouldQueue
 {
@@ -20,11 +21,28 @@ class GenerateSshKey implements ShouldQueue
 
     public function handle()
     {
-        [$privateKey, $publicKey] = (new KeyPair())->generate();
+            $privateKeyFileName = $this->server->id.'-'.str()->random();
+            $publicKeyFileName = $privateKeyFileName . '.pub';
 
-        $this->server->update([
-            'private_key' => $privateKey,
-            'public_key' => $publicKey,
-        ]);
+            Storage::disk('local')->put($privateKeyFileName, '');
+            Storage::disk('local')->setVisibility($privateKeyFileName, 'private');
+
+            $privateKeyPath = Storage::path($privateKeyFileName);
+
+            $process = Process::fromShellCommandline('ssh-keygen -q -t rsa -b 2048 -f "${:privateKeyPath}" -N "" <<< y');
+
+            $process->run(null, ['privateKeyPath' => $privateKeyPath]);
+
+            if($process->isSuccessful()) {
+
+                $this->server->update([
+                        'private_key' => Storage::get($privateKeyFileName),
+                        'public_key' => Storage::get($publicKeyFileName),
+                ]);
+
+            }
+
+            Storage::delete([$privateKeyFileName, $publicKeyFileName]);
+
     }
 }

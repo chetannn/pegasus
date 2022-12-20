@@ -36,7 +36,7 @@ return [
             'throw' => false,
             'permissions' => [
                 'file' => [
-                    'public' => 0644,
+                    'public' => 0600,
                     'private' => 0600,
                 ],
                 'dir' => [
