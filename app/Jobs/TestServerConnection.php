@@ -11,6 +11,7 @@ use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Facades\Storage;
 use Spatie\Ssh\Ssh;
+use App\Events\CheckServerConnectionStatus;
 
 class TestServerConnection implements ShouldQueue
 {
@@ -30,10 +31,12 @@ class TestServerConnection implements ShouldQueue
                  ->disableStrictHostKeyChecking()
                 ->usePort(22)
                 ->execute([
-                    'ls',
+                    'ls -la',
                 ]);
 
         $this->server->connection_status = $process->isSuccessful() ? ServerStatus::Connected : ServerStatus::Failed;
+
+        CheckServerConnectionStatus::dispatch($this->server->id, $process->isSuccessful());
 
         Storage::disk('local')->delete($fileName);
         $this->server->save();

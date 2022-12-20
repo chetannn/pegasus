@@ -29,5 +29,8 @@ class DeploymentController extends Controller
 
 
         dispatch(new DeployApplication());
+
+
+        return redirect()->back()->with('toast', 'Deployment has successfully started...');
     }
 }

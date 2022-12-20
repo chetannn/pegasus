@@ -1,5 +1,5 @@
 <script setup>
-import { ref } from 'vue'
+import { ref, onMounted } from 'vue'
 import {  Link } from '@inertiajs/inertia-vue3'
 import { ArrowPathIcon } from '@heroicons/vue/24/solid'
 import AddServerForm from '@/Pages/Projects/Partials/AddServerForm.vue'
@@ -14,6 +14,7 @@ const props = defineProps({
 const showServerDetailDialog = ref(false)
 
 const closeServerDetailDialog = () => showServerDetailDialog.value = false
+
 </script>
 
 <template>
@@ -82,6 +83,7 @@ const closeServerDetailDialog = () => showServerDetailDialog.value = false
               v-else-if="server.connection_status === 2"
               class="text-red-600 font-bold"
             >failed</span>
+
             <Link
               as="button"
               type="button"

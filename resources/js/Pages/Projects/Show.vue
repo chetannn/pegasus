@@ -1,6 +1,6 @@
 <script setup>
 import { Head, Link, useForm } from '@inertiajs/inertia-vue3'
-import { ref, watch } from 'vue'
+import { ref, watch, onMounted } from 'vue'
 import { TabGroup, TabList, Tab, TabPanels, TabPanel } from '@headlessui/vue'
 import { ArrowPathIcon } from '@heroicons/vue/24/solid'
 import SecondaryButton from '@/Components/SecondaryButton.vue'
@@ -25,6 +25,26 @@ const closeAddServerDialog = () => showAddServerDialog.value = false
 const autoDeploy = ref(!!props.project.deploy_when_code_is_pushed)
 
 
+const listenForConnectionStatus = () => {
+        window.Echo
+               .private(`server-status`)
+               .listen('CheckServerConnectionStatus', (e) => {
+                           reload()
+                       })
+}
+
+
+const reload = () => {
+    Inertia.reload({
+        only: ['servers'],
+        headers: { 'X-Socket-ID': Echo.socketId() },
+        onFinish: () => {
+
+        }
+    })
+}
+
+
 watch(autoDeploy, () => {
         Inertia.patch(route('project_settings.toggle_auto_deploy', { project: props.project.id }), {
                 enableAutoDeploy: autoDeploy.value
@@ -36,6 +56,10 @@ function deployProject() {
 
         Inertia.get(`/deploy/${props.project.deployment_trigger_token}`)
 }
+
+onMounted(() => {
+        listenForConnectionStatus()
+})
 
 </script>
 

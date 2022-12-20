@@ -2,6 +2,7 @@
 import { ref } from 'vue'
 import { Link } from '@inertiajs/inertia-vue3'
 import ApplicationLogo from '@/Components/ApplicationLogo.vue'
+import ToastList from '@/Components/ToastList.vue'
 import Dropdown from '@/Components/Dropdown.vue'
 import DropdownLink from '@/Components/DropdownLink.vue'
 import NavLink from '@/Components/NavLink.vue'
@@ -12,6 +13,9 @@ const showingNavigationDropdown = ref(false)
 
 <template>
   <div>
+
+     <ToastList />
+
     <div class="min-h-screen bg-gray-100">
       <nav class="bg-white border-b border-gray-100">
         <!-- Primary Navigation Menu -->

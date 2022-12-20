@@ -35,6 +35,7 @@ class ServerController extends Controller
 
     public function checkServerStatus(Server $server): RedirectResponse
     {
+
         dispatch(new TestServerConnection($server));
 
         return redirect()->back();
