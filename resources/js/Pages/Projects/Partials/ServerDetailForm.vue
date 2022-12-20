@@ -29,10 +29,10 @@ const closeModal = () => emit('close')
         </p>
       </header>
 
-      <div class="mt-3 bg-gray-100">
-        <pre class="p-1">
+      <div class="mt-3 p-2 w-md overflow-x-auto  bg-gray-100">
+        <div class="whitespace-pre-line">
                    {{ server.public_key }}
-                </pre>
+                </div>
       </div>
     </div>
   </Modal>

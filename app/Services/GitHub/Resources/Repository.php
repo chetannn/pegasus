@@ -24,4 +24,19 @@ class Repository
 
         return $response->json();
     }
+
+    public function latestTarball(string $repo) : string
+    {
+        $request = $this->client->makeRequest();
+
+        $response = $request->get(
+            url: "/repos/{$repo}/tarball/main"
+        );
+
+        if ($response->failed()) {
+            throw $response->toException();
+        }
+
+        return $response->body();
+    }
 }

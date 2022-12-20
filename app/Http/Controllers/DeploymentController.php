@@ -28,9 +28,9 @@ class DeploymentController extends Controller
         ]);
 
 
-        dispatch(new DeployApplication());
+        dispatch(new DeployApplication($project, $gitHubClient));
 
 
-        return redirect()->back()->with('toast', 'Deployment has successfully started...');
+        return redirect()->back()->with('toast', 'Deployment has been started...');
     }
 }
