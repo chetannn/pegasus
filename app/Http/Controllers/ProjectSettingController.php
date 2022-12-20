@@ -30,6 +30,7 @@ class ProjectSettingController extends Controller
             'deploy_when_code_is_pushed' => request()->boolean('enableAutoDeploy'),
         ]);
 
-        return redirect()->back();
+
+        return redirect()->back()->with('toast', request()->boolean('enableAutoDeploy') ? 'Auto Deploy has been enabled.' : 'Auto Deploy has been disabled');
     }
 }

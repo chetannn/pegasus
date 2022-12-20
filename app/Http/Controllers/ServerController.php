@@ -30,7 +30,7 @@ class ServerController extends Controller
 
         dispatch(new GenerateSshKey($server));
 
-        return redirect()->back();
+        return redirect()->back()->with('toast', 'Server Added Successfully.');
     }
 
     public function checkServerStatus(Server $server): RedirectResponse

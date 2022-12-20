@@ -39,6 +39,6 @@ class ProjectController extends Controller
             )
         );
 
-        return redirect()->back();
+        return redirect()->back()->with('toast', 'Project added successfully.');
     }
 }
