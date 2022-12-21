@@ -35,12 +35,12 @@ class TestServerConnection implements ShouldQueue
                 ->disableStrictHostKeyChecking()
                 ->usePort(22)
                 ->execute([
-                    'ls -la',
+                    'mkdir -p /var/www/html/releases',
                 ]);
 
         $this->server->connection_status = $process->isSuccessful() ? ServerStatus::Connected : ServerStatus::Failed;
         
-        logger($process->getOutput());
+        logger($process->getErrorOutput());
 
         CheckServerConnectionStatus::dispatch($this->server->id, $process->isSuccessful());
         Storage::disk('local')->delete($fileName);
