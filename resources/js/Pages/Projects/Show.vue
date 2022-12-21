@@ -37,6 +37,7 @@ const listenForConnectionStatus = () => {
 const reload = () => {
     Inertia.reload({
         only: ['servers'],
+        preserveScroll: true,
         headers: { 'X-Socket-ID': Echo.socketId() },
         onFinish: () => {
 

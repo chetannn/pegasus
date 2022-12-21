@@ -19,7 +19,7 @@ const closeServerDetailDialog = () => showServerDetailDialog.value = false
 
 function checkServerStatus(server) {
 
-              Inertia.put(route('servers.server_status', { server: server.id }) )
+              Inertia.put(route('servers.server_status', { server: server.id }) , { preserveScroll: true })
 }
 
 </script>
@@ -81,15 +81,21 @@ function checkServerStatus(server) {
 
         <td class="py-4 px-6">
           <div class="flex">
-            <span v-if="server.connection_status === 0">Unknown</span>
+            <span class="bg-text-600 font-bold" v-if="server.connection_status === 0">Not connected</span>
             <span
               v-else-if="server.connection_status === 1"
               class="text-green-600 font-bold"
-            >connected</span>
+            >Connected</span>
             <span
               v-else-if="server.connection_status === 2"
+              class="text-yellow-500 font-bold"
+            >Checking...</span>
+
+
+            <span
+              v-else-if="server.connection_status === 3"
               class="text-red-600 font-bold"
-            >failed</span>
+            >Failed</span>
 
             <button
                 @click="checkServerStatus(server)"
