@@ -29,7 +29,7 @@ class GenerateSshKey implements ShouldQueue
 
             $privateKeyPath = Storage::path($privateKeyFileName);
 
-            $process = Process::fromShellCommandline('ssh-keygen -q -t rsa -b 2048 -f "${:privateKeyPath}" -N "" <<< y');
+            $process = Process::fromShellCommandline('ssh-keygen -q -t rsa -b 2048 -f "${:privateKeyPath}" -N');
 
             $process->run(null, ['privateKeyPath' => $privateKeyPath]);
 

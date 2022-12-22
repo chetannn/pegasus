@@ -72,12 +72,13 @@ class DeployApplication implements ShouldQueue
                         "rm /var/www/html/releases/$currentDateTime.tar.gz",
                         "rm -rf /var/www/html/releases/$currentDateTime/storage",
                         $this->installComposerDependencies($currentDateTime),
-                         $this->linkStorageDirectory($currentDateTime),
-                         $this->activateNewRelease($currentDateTime),
+                        $this->linkStorageDirectory($currentDateTime),
+                        $this->createEnvFileIfNotExists(),
+                        $this->linkEnvFile($currentDateTime),
+                        $this->activateNewRelease($currentDateTime),
                 ]);
 
         }
-
 
         Storage::disk('local')->delete($fileName);
     }
@@ -85,6 +86,16 @@ class DeployApplication implements ShouldQueue
     public function activateNewRelease($deployFolder)
     {
         return "ln -s -n -f /var/www/html/releases/$deployFolder /var/www/html/current";
+    }
+
+    public function createEnvFileIfNotExists()
+    {
+            return "cd /var/www/html && touch -c .env";
+    }
+
+    public function linkEnvFile($deployFolder)
+    {
+        return "ln -s -f /var/www/html/.env /var/www/html/releases/$deployFolder";
     }
 
     public function linkStorageDirectory($deployFolder)
