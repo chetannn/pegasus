@@ -82,6 +82,7 @@ class DeployApplication implements ShouldQueue
         }
 
         Storage::disk('local')->delete($fileName);
+        Storage::disk('local')->delete("$currentDateTime.tar.gz");
     }
 
     public function activateNewRelease($deployFolder)
