@@ -23,8 +23,11 @@ class DeploymentController extends Controller
         $commits = $gitHubClient->commits()->list(repo: $project->repository);
 
         $project->deployments()->create([
-                'commit_hash' => $commits[0]['sha'],
-                'committer' => $commits[0]['committer']['login']
+                'commit_hash' => substr($commits[0]['sha'],0, 7),
+                'committer' => $commits[0]['committer']['login'],
+                'committer_avatar_url' => $commits[0]['committer']['avatar_url'],
+                'committer_url' => $commits[0]['committer']['html_url'],
+                'commit_url' => $commits[0]['html_url'],
         ]);
 
 

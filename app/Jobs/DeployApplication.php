@@ -71,6 +71,7 @@ class DeployApplication implements ShouldQueue
                         "mkdir -p /var/www/html/storage/framework/{cache,sessions,testing,views}",
                         "rm /var/www/html/releases/$currentDateTime.tar.gz",
                         "rm -rf /var/www/html/releases/$currentDateTime/storage",
+                        "chown -R www-data:www-data /var/www/html/storage",
                         $this->installComposerDependencies($currentDateTime),
                         $this->linkStorageDirectory($currentDateTime),
                         $this->createEnvFileIfNotExists(),

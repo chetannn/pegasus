@@ -12,7 +12,7 @@ import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue'
 import AddServerForm from '@/Pages/Projects/Partials/AddServerForm.vue'
 import ServerDetailForm from '@/Pages/Projects/Partials/ServerDetailForm.vue'
 import { Inertia } from '@inertiajs/inertia'
-import { RocketLaunchIcon, ServerStackIcon, BoltIcon } from '@heroicons/vue/24/outline'
+import { RocketLaunchIcon, ServerStackIcon, BoltIcon, Square3Stack3DIcon, CloudArrowDownIcon } from '@heroicons/vue/24/outline'
 
 const props = defineProps({
   project: Object,
@@ -44,8 +44,6 @@ const reload = () => {
         }
     })
 }
-
-
 watch(autoDeploy, () => {
         Inertia.patch(route('project_settings.toggle_auto_deploy', { project: props.project.id }), {
                 enableAutoDeploy: autoDeploy.value
@@ -131,13 +129,27 @@ onMounted(() => {
               <button 
                 :class="['inline-flex items-center p-3 border-b-2 border-transparent group font-normal', selected ? 'text-blue-600 border-blue-600' : 'hover:text-gray-700 hover:border-gray-300']"
               >
-               <BoltIcon 
+               <CloudArrowDownIcon
                 :class="['w-5 h-5 mr-2 text-gray-500', selected ? 'text-blue-600' : 'group-hover:text-gray-600']"
                />
-                Deployment Hooks
+                Installations
               </button>
             </Tab>
 
+            <Tab
+              v-slot="{selected}"
+              as="li"
+              class="mx-4 focus:outline-none"
+            >
+              <button 
+                :class="['inline-flex items-center p-3 border-b-2 border-transparent group font-normal', selected ? 'text-blue-600 border-blue-600' : 'hover:text-gray-700 hover:border-gray-300']"
+              >
+               <Square3Stack3DIcon
+                :class="['w-5 h-5 mr-2 text-gray-500', selected ? 'text-blue-600' : 'group-hover:text-gray-600']"
+               />
+                Deployment Pipelines
+              </button>
+            </Tab>
 
           </TabList>
           </div>
@@ -150,7 +162,7 @@ onMounted(() => {
                 </h2>
               </div>
 
-              <div class="overflow-x-auto relative">
+              <div class="">
                 <DeploymentTable :deployments="props.deployments" />
               </div>
             </TabPanel>
