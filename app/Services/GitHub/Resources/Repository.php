@@ -25,7 +25,7 @@ class Repository
         return $response->json();
     }
 
-    public function latestTarball(string $repo) : string
+    public function latestTarball(string $repo): string
     {
         $request = $this->client->makeRequest();
 

@@ -3,6 +3,7 @@
 namespace App\Jobs;
 
 use App\Enums\ServerStatus;
+use App\Events\CheckServerConnectionStatus;
 use App\Models\Server;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -11,12 +12,10 @@ use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Facades\Storage;
 use Spatie\Ssh\Ssh;
-use App\Events\CheckServerConnectionStatus;
 
 class TestServerConnection implements ShouldQueue
 {
-        use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
-
+    use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
     public function __construct(public Server $server)
     {
@@ -39,7 +38,7 @@ class TestServerConnection implements ShouldQueue
                 ]);
 
         $this->server->connection_status = $process->isSuccessful() ? ServerStatus::Connected : ServerStatus::Failed;
-        
+
         logger($process->getErrorOutput());
 
         CheckServerConnectionStatus::dispatch($this->server->id, $process->isSuccessful());

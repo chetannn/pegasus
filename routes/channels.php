@@ -18,7 +18,6 @@ Broadcast::channel('App.Models.User.{id}', function ($user, $id) {
     return (int) $user->id === (int) $id;
 });
 
-
-Broadcast::channel('server-status', function() {
-     return Auth::check();
+Broadcast::channel('server-status', function () {
+    return Auth::check();
 });

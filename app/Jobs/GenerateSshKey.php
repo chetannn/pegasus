@@ -21,29 +21,27 @@ class GenerateSshKey implements ShouldQueue
 
     public function handle()
     {
-            $privateKeyFileName = $this->server->id.'-'.str()->random();
-            $publicKeyFileName = $privateKeyFileName . '.pub';
+        $privateKeyFileName = $this->server->id.'-'.str()->random();
+        $publicKeyFileName = $privateKeyFileName.'.pub';
 
-            Storage::disk('local')->put($privateKeyFileName, '');
-            Storage::disk('local')->setVisibility($privateKeyFileName, 'private');
+        Storage::disk('local')->put($privateKeyFileName, '');
+        Storage::disk('local')->setVisibility($privateKeyFileName, 'private');
 
-            $privateKeyPath = Storage::path($privateKeyFileName);
+        $privateKeyPath = Storage::path($privateKeyFileName);
 
-            $command = "echo yes | ssh-keygen -q -t rsa -b 2048 -f $privateKeyPath -N '' ";
+        $command = "echo yes | ssh-keygen -q -t rsa -b 2048 -f $privateKeyPath -N '' ";
 
-            $process = Process::fromShellCommandline($command);
+        $process = Process::fromShellCommandline($command);
 
-            $process->run(null, ['privateKeyPath' => $privateKeyPath]);
+        $process->run();
 
-            if($process->isSuccessful()) {
-                $this->server->update([
-                        'private_key' => Storage::get($privateKeyFileName),
-                        'public_key' => Storage::get($publicKeyFileName),
-                ]);
+        if ($process->isSuccessful()) {
+            $this->server->update([
+                'private_key' => Storage::get($privateKeyFileName),
+                'public_key' => Storage::get($publicKeyFileName),
+            ]);
+        }
 
-            }
-
-            Storage::delete([$privateKeyFileName, $publicKeyFileName]);
-
+        Storage::delete([$privateKeyFileName, $publicKeyFileName]);
     }
 }

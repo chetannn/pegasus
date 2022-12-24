@@ -35,9 +35,9 @@ class ServerController extends Controller
 
     public function checkServerStatus(Server $server): RedirectResponse
     {
-            $server->connection_status = ServerStatus::Checking->value;
+        $server->connection_status = ServerStatus::Checking->value;
 
-            $server->save();
+        $server->save();
 
         dispatch(new TestServerConnection($server));
 

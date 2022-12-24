@@ -65,7 +65,7 @@ class DeployApplication implements ShouldQueue
                 ->disableStrictHostKeyChecking()
                 ->usePort(22)
                 ->execute([
-                        "mkdir -p /var/www/html/releases/$currentDateTime && tar xvf /var/www/html/releases/$currentDateTime.tar.gz --strip-components=1 --directory /var/www/html/releases/$currentDateTime $(tar -tf /var/www/html/$currentDateTime.tar.gz | head -n 1)",
+                        $this->unzipTarball($currentDateTime),
                         "mkdir -p /var/www/html/storage/{app,framework,logs}",
                         "mkdir -p /var/www/html/storage/app/public",
                         "mkdir -p /var/www/html/storage/framework/{cache,sessions,testing,views}",
@@ -108,5 +108,10 @@ class DeployApplication implements ShouldQueue
     public function installComposerDependencies($deployFolder)
     {
         return "cd /var/www/html/releases/$deployFolder && composer install";
-    }
+        }
+
+    public function unzipTarball($deployFolder)
+        {
+                return "mkdir -p /var/www/html/releases/$deployFolder && tar xvf /var/www/html/releases/$deployFolder.tar.gz --strip-components=1 --directory /var/www/html/releases/$deployFolder $(tar -tf /var/www/html/$deployFolder.tar.gz | head -n 1)";
+        }
 }
