@@ -15,7 +15,7 @@ class ServerController extends Controller
     {
         request()->validate([
             'name' => ['required'],
-            'ip_address' => ['required'],
+            'ip_address' => ['required', 'ip'],
             'username' => ['required'],
             'project_path' => ['required'],
         ]);

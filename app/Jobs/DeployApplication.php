@@ -45,15 +45,15 @@ class DeployApplication implements ShouldQueue
         $tarball = $this->gitHubClient->repos()->latestTarball($this->project->repository);
 
 
-        $currentDateTime = now()->format('YmdHis');
-        Storage::disk('local')->put("$currentDateTime.tar.gz", $tarball);
+        $newReleaseDirectoryName = now()->format('YmdHis');
+        Storage::disk('local')->put("$newReleaseDirectoryName.tar.gz", $tarball);
 
         $process = Ssh::create($server->username, $server->ip_address)
                 ->usePrivateKey(Storage::path($fileName))
                 ->disablePasswordAuthentication()
                 ->disableStrictHostKeyChecking()
                 ->usePort(22)
-                ->upload(Storage::path("$currentDateTime.tar.gz"), '/var/www/html/releases');
+                ->upload(Storage::path("$newReleaseDirectoryName.tar.gz"), '/var/www/html/releases');
 
         if($process->isSuccessful()) {
 
@@ -65,24 +65,22 @@ class DeployApplication implements ShouldQueue
                 ->disableStrictHostKeyChecking()
                 ->usePort(22)
                 ->execute([
-                        $this->unzipTarball($currentDateTime),
-                        "mkdir -p /var/www/html/storage/{app,framework,logs}",
-                        "mkdir -p /var/www/html/storage/app/public",
-                        "mkdir -p /var/www/html/storage/framework/{cache,sessions,testing,views}",
-                        "rm /var/www/html/releases/$currentDateTime.tar.gz",
-                        "rm -rf /var/www/html/releases/$currentDateTime/storage",
-                        "chown -R www-data:www-data /var/www/html/storage",
-                        $this->installComposerDependencies($currentDateTime),
-                        $this->linkStorageDirectory($currentDateTime),
+                        $this->unzipTarball($newReleaseDirectoryName),
+                        $this->deleteStorageDirectoryIncludedInTarball($newReleaseDirectoryName),
+                        $this->deleteTarball($newReleaseDirectoryName),
+                        $this->makeStorageDirectories(),
+                        $this->installComposerDependencies($newReleaseDirectoryName),
+                        $this->linkStorageDirectory($newReleaseDirectoryName),
                         $this->createEnvFileIfNotExists(),
-                        $this->linkEnvFile($currentDateTime),
-                        $this->activateNewRelease($currentDateTime),
+                        $this->linkEnvFile($newReleaseDirectoryName),
+                        $this->changeStorageDirectoryOwnership(),
+                        $this->activateNewRelease($newReleaseDirectoryName),
                 ]);
 
         }
 
         Storage::disk('local')->delete($fileName);
-        Storage::disk('local')->delete("$currentDateTime.tar.gz");
+        Storage::disk('local')->delete("$newReleaseDirectoryName.tar.gz");
     }
 
     public function activateNewRelease($deployFolder)
@@ -93,16 +91,21 @@ class DeployApplication implements ShouldQueue
     public function createEnvFileIfNotExists()
     {
             return "cd /var/www/html && touch -c .env";
-    }
+        }
+
+        public function createSymbolicLink($sourcePath, $destinationPath)
+        {
+                return "ln -s -f $sourcePath $destinationPath";
+        }
 
     public function linkEnvFile($deployFolder)
-    {
-        return "ln -s -f /var/www/html/.env /var/www/html/releases/$deployFolder";
-    }
+        {
+                return $this->createSymbolicLink("/var/www/html/.env", "/var/www/html/releases/$deployFolder");
+        }
 
     public function linkStorageDirectory($deployFolder)
-    {
-        return "ln -s -f /var/www/html/storage /var/www/html/releases/$deployFolder/storage";
+        {
+                return $this->createSymbolicLink("/var/www/html/storage", "/var/www/html/releases/$deployFolder/storage");
     }
 
     public function installComposerDependencies($deployFolder)
@@ -113,5 +116,29 @@ class DeployApplication implements ShouldQueue
     public function unzipTarball($deployFolder)
         {
                 return "mkdir -p /var/www/html/releases/$deployFolder && tar xvf /var/www/html/releases/$deployFolder.tar.gz --strip-components=1 --directory /var/www/html/releases/$deployFolder $(tar -tf /var/www/html/$deployFolder.tar.gz | head -n 1)";
+        }
+
+        public function makeStorageDirectories()
+        {
+                " 
+                mkdir -p /var/www/html/storage/{app,framework,logs} \n
+                mkdir -p /var/www/html/storage/app/public \n
+                mkdir -p /var/www/html/storage/framework/{cache,sessions,testing,views}
+                ";
+        }
+
+        public function deleteStorageDirectoryIncludedInTarball($deployFolder)
+        {
+                                return "rm -rf /var/www/html/releases/$deployFolder/storage";
+        }
+
+        public function deleteTarball($deployFolder) : string
+        {
+                return "rm /var/www/html/releases/$deployFolder.tar.gz";
+        }
+
+        public function changeStorageDirectoryOwnership() : string
+        {
+              return "chown -R www-data:www-data /var/www/html/storage";
         }
 }
