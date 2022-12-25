@@ -39,9 +39,7 @@ class TestServerConnection implements ShouldQueue
 
         $this->server->connection_status = $process->isSuccessful() ? ServerStatus::Connected : ServerStatus::Failed;
 
-        logger($process->getErrorOutput());
-
-        CheckServerConnectionStatus::dispatch($this->server->id, $process->isSuccessful());
+        event(new CheckServerConnectionStatus($this->server->id, $process->isSuccessful()));
         Storage::disk('local')->delete($fileName);
         $this->server->save();
     }
