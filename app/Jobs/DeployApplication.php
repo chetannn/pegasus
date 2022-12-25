@@ -120,7 +120,7 @@ class DeployApplication implements ShouldQueue
 
         public function makeStorageDirectories()
         {
-                " 
+               return " 
                 mkdir -p /var/www/html/storage/{app,framework,logs} \n
                 mkdir -p /var/www/html/storage/app/public \n
                 mkdir -p /var/www/html/storage/framework/{cache,sessions,testing,views}
