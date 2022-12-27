@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\DeploymentController;
+use App\Http\Controllers\DeploymentPipelineController;
 use App\Http\Controllers\IntegrationListController;
 use App\Http\Controllers\Integrations\GitHubController;
 use App\Http\Controllers\Integrations\GitLabController;
@@ -36,6 +37,9 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/projects/{project}', [ProjectController::class, 'show'])->name('projects.show');
     Route::post('/projects', [ProjectController::class, 'store'])->name('projects.store');
     Route::get('/projects', [ProjectController::class, 'index'])->name('projects.index');
+    Route::get('/projects/{project}/pipelines', [DeploymentPipelineController::class, 'index'])->name('pipelines.index');
+    Route::post('/projects/{project}/pipelines', [DeploymentPipelineController::class, 'store'])->name('pipelines.store');
+    Route::get('/projects/{project}/pipelines/{pipeline}', [DeploymentPipelineController::class, 'show'])->name('pipelines.show');
 
     Route::get('/integrations', IntegrationListController::class)->name('integrations.index');
     Route::get('/integrations/github', [GitHubController::class, 'redirect']);
@@ -48,7 +52,8 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
     Route::get('/github/repositories', [GitHubController::class, 'repos']);
 
-    Route::get('/deploy/{deploymentTriggerToken}', [DeploymentController::class, 'deploy'])->name('deployments.store');
+        Route::get('/deploy/{deploymentTriggerToken}', [DeploymentController::class, 'deploy'])->name('deployments.store');
+
 });
 
 Route::middleware('auth')->group(function () {

@@ -7,12 +7,13 @@ import SecondaryButton from '@/Components/SecondaryButton.vue'
 import PrimaryButton from '@/Components/PrimaryButton.vue'
 import Toggle from '@/Components/Toggle.vue'
 import ServerTable from '@/Components/ServerTable.vue'
+import PipelineCard from '@/Components/PipelineCard.vue'
 import DeploymentTable from '@/Components/DeploymentTable.vue'
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue'
 import AddServerForm from '@/Pages/Projects/Partials/AddServerForm.vue'
 import ServerDetailForm from '@/Pages/Projects/Partials/ServerDetailForm.vue'
 import { Inertia } from '@inertiajs/inertia'
-import { RocketLaunchIcon, ServerStackIcon, BoltIcon, Square3Stack3DIcon, CloudArrowDownIcon } from '@heroicons/vue/24/outline'
+import { RocketLaunchIcon, ServerStackIcon, BoltIcon, Square3Stack3DIcon, CloudArrowDownIcon, PlusIcon, PencilSquareIcon } from '@heroicons/vue/24/outline'
 
 const props = defineProps({
   project: Object,
@@ -54,6 +55,10 @@ watch(autoDeploy, () => {
 function deployProject() {
 
         Inertia.get(`/deploy/${props.project.deployment_trigger_token}`)
+}
+
+function addNewPipeline() {
+        Inertia.get(route('pipelines.index', { project: props.project.id }))
 }
 
 onMounted(() => {
@@ -190,6 +195,26 @@ onMounted(() => {
               <div class="overflow-x-auto relative">
                 <ServerTable :servers="servers" />
               </div>
+            </TabPanel>
+
+            <TabPanel>
+            </TabPanel>
+
+            <TabPanel>
+   <div class="flex justify-between my-4">
+                <h2 class="text-lg font-normal">
+                  Deployment Pipelines
+                </h2>
+
+                <div class="flex space-x-2">
+                   <SecondaryButton @click="addNewPipeline()">Add Pipeline</SecondaryButton>
+                </div>
+ </div>
+                <div class="grid grid-cols-3 mt-2">
+                  <PipelineCard label="Edit Pipeline">
+                   <PencilSquareIcon class="h-5 w-5 text-gray-700 group-hover:text-white" />
+                  </PipelineCard>
+                </div>
             </TabPanel>
           </TabPanels>
         </TabGroup>

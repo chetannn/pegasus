@@ -20,5 +20,10 @@ class Project extends Model
     public function servers(): HasMany
     {
         return $this->hasMany(Server::class);
-    }
+        }
+
+        public function deploymentPipelines() : HasMany
+        {
+                return $this->hasMany(DeploymentPipeline::class);
+        }
 }
