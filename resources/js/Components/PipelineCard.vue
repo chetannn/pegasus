@@ -4,7 +4,7 @@ import {  PencilSquareIcon } from '@heroicons/vue/24/outline'
 const props = defineProps({
         label: {
             type: String,
-            default: 'Add Pipeline'
+            default: 'Create Pipeline'
         }
 })
 

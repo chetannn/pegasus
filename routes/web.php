@@ -54,6 +54,10 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
         Route::get('/deploy/{deploymentTriggerToken}', [DeploymentController::class, 'deploy'])->name('deployments.store');
 
+        Route::get('/drag', function() {
+            return Inertia::render('Drag', []);
+        });
+
 });
 
 Route::middleware('auth')->group(function () {

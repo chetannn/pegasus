@@ -27,6 +27,7 @@
         "@headlessui/vue": "^1.7.4",
         "@heroicons/vue": "^2.0.13",
         "laravel-echo": "^1.14.2",
-        "pusher-js": "^7.6.0"
+        "pusher-js": "^7.6.0",
+        "vuedraggable": "^4.1.0"
     }
 }
