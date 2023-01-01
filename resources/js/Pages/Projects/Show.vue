@@ -53,12 +53,15 @@ watch(autoDeploy, () => {
 
 
 function deployProject() {
-
         Inertia.get(`/deploy/${props.project.deployment_trigger_token}`)
 }
 
-function addNewPipeline() {
-        Inertia.get(route('pipelines.index', { project: props.project.id }))
+function createPipeline() {
+        Inertia.post(route('pipelines.store', { project: props.project.id, template: 'laravel-latest' }), {
+                onSuccess: () => {
+                        console.log('done...');
+                }
+        })
 }
 
 onMounted(() => {
@@ -205,14 +208,10 @@ onMounted(() => {
                 <h2 class="text-lg font-normal">
                   Deployment Pipelines
                 </h2>
-
-                <div class="flex space-x-2">
-                   <SecondaryButton @click="addNewPipeline()">Add Pipeline</SecondaryButton>
-                </div>
  </div>
                 <div class="grid grid-cols-3 mt-2">
-                  <PipelineCard label="Edit Pipeline">
-                   <PencilSquareIcon class="h-5 w-5 text-gray-700 group-hover:text-white" />
+                  <PipelineCard @actionClick="createPipeline()">
+                         <PlusIcon class="h-5 w-5 text-gray-700 group-hover:text-white" />
                   </PipelineCard>
                 </div>
             </TabPanel>

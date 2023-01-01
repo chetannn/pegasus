@@ -38,7 +38,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::post('/projects', [ProjectController::class, 'store'])->name('projects.store');
     Route::get('/projects', [ProjectController::class, 'index'])->name('projects.index');
     Route::get('/projects/{project}/pipelines', [DeploymentPipelineController::class, 'index'])->name('pipelines.index');
-    Route::post('/projects/{project}/pipelines', [DeploymentPipelineController::class, 'store'])->name('pipelines.store');
+    Route::post('/projects/{project}/pipelines/{template}', [DeploymentPipelineController::class, 'store'])->name('pipelines.store');
     Route::get('/projects/{project}/pipelines/{pipeline}', [DeploymentPipelineController::class, 'show'])->name('pipelines.show');
 
     Route::get('/integrations', IntegrationListController::class)->name('integrations.index');

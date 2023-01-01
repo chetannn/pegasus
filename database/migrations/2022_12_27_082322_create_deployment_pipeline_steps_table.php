@@ -13,6 +13,7 @@ return new class extends Migration
             $table->id();
             $table->string('title');
             $table->string('type');
+            $table->integer('order');
             $table->json('payload')->nullable();
             $table->foreignIdFor(DeploymentPipeline::class);
             $table->timestamps();

@@ -14,4 +14,5 @@ class DeploymentStep extends Model
     {
         return $this->belongsTo(Deployment::class);
     }
+
 }

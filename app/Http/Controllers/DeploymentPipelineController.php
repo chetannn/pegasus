@@ -21,17 +21,23 @@ class DeploymentPipelineController extends Controller
         {
                 return [];
         }
-        public function store(Project $project) : RedirectResponse
+
+        public function store(Project $project, string $template) : RedirectResponse
         {
-                $deploymentPipeline = $project->deploymentPipelines()->create();
+                $deploymentPipeline = $project->deploymentPipelines()->create([
+                        'name' => 'Laravel'
+                ]);
 
-                $deploymentPipeline->createDefaultDeploymentPipelineSteps();
+                $deploymentPipeline->createDefaultDeploymentPipelineSteps($deploymentPipeline, $template);
 
-                return redirect()->back();
+                return to_route('pipelines.show');
         }
 
-        public function show(Project $project, DeploymentPipeline $pipeline)
+        public function show(DeploymentPipeline $deploymentPipeline) : InertiaResponse
         {
+                return Inertia::render('DeploymentPipelines/Show', [
 
+                ]);
         }
+
 }

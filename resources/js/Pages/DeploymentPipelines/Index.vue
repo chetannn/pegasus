@@ -1,5 +1,6 @@
 <script setup>
 import { Head, Link, useForm } from '@inertiajs/inertia-vue3'
+import { Inertia } from '@inertiajs/inertia'
 import { ref } from 'vue'
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue'
 import PipelineCard from '@/Components/PipelineCard.vue'
@@ -13,10 +14,11 @@ const props = defineProps({
 })
 
 const form = useForm({
+          
         })
 
 function createPipeline() {
-        form.post(route('pipelines.store', { project: props.project.id }), {
+        Inertia.post(route('pipelines.store', { project: props.project.id, template: 'laravel-latest' }), {
                 onSuccess: () => {
                         console.log('done...');
                 }
